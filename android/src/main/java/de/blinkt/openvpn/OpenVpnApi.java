@@ -6,6 +6,7 @@ import android.net.VpnService;
 import android.os.Build;
 import android.os.RemoteException;
 import android.text.TextUtils;
+import com.reactlibrary.R;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -45,7 +46,7 @@ public class OpenVpnApi {
             cp.parseConfig(new StringReader(inlineConfig));
             VpnProfile vp = cp.convertProfile();// 解析.ovpn
             vp.mName = Build.MODEL;
-            if (vp.checkProfile(context) != de.blinkt.openvpn.R.string.no_error_found){
+            if (vp.checkProfile(context) != R.string.no_error_found){
                 throw new RemoteException(context.getString(vp.checkProfile(context)));
             }
             vp.mProfileCreator = context.getPackageName();
