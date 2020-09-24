@@ -13,6 +13,9 @@ import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.reactlibrary.BuildConfig;
+import com.reactlibrary.R;
+
 import junit.framework.Assert;
 
 import java.io.FileDescriptor;
@@ -28,8 +31,6 @@ import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Vector;
 
-import de.blinkt.openvpn.BuildConfig;
-import de.blinkt.openvpn.R;
 import de.blinkt.openvpn.VpnProfile;
 import de.blinkt.openvpn.core.VpnStatus.ConnectionStatus;
 

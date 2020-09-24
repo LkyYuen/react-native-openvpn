@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Vector;
 
-import de.blinkt.openvpn.R;
+import com.reactlibrary.R;
 import de.blinkt.openvpn.VpnProfile;
 
 public class VPNLaunchHelper {

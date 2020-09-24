@@ -6,7 +6,7 @@ package de.blinkt.openvpn.core;
 
 import android.app.Application;
 
-import de.blinkt.openvpn.BuildConfig;
+import com.reactlibrary.BuildConfig;
 
 /*
 import org.acra.ACRA;

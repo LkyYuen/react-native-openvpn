@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Vector;
 
-import de.blinkt.openvpn.R;
+import com.reactlibrary.R;
 
 public class VpnStatus {
     // keytool -printcert -jarfile de.blinkt.openvpn_85.apk

@@ -8,8 +8,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.text.TextUtils;
 
-import org.spongycastle.util.io.pem.PemObject;
-import org.spongycastle.util.io.pem.PemReader;
+import org.spongycastle.util.pem.PemObject;
+import org.spongycastle.util.pem.PemReader;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -34,7 +34,7 @@ import java.util.Vector;
 
 import javax.security.auth.x500.X500Principal;
 
-import de.blinkt.openvpn.R;
+import com.reactlibrary.R;
 import de.blinkt.openvpn.VpnProfile;
 
 public class X509Utils {

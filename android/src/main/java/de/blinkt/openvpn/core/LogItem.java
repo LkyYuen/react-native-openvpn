@@ -26,7 +26,7 @@ import java.util.FormatFlagsConversionMismatchException;
 import java.util.Locale;
 import java.util.UnknownFormatConversionException;
 
-import de.blinkt.openvpn.R;
+import com.reactlibrary.R;
 
 /**
  * Created by arne on 24.04.16.

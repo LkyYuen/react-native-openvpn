@@ -16,7 +16,7 @@ import android.preference.PreferenceManager;
 
 import java.util.LinkedList;
 
-import de.blinkt.openvpn.R;
+import com.reactlibrary.R;
 import de.blinkt.openvpn.core.VpnStatus.ByteCountListener;
 
 import static de.blinkt.openvpn.core.OpenVPNManagement.pauseReason;

@@ -41,9 +41,9 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Vector;
 
-import de.blinkt.openvpn.BuildConfig;
+import com.reactlibrary.BuildConfig;
 import de.blinkt.openvpn.DisconnectVPNActivity;
-import de.blinkt.openvpn.R;
+import com.reactlibrary.R;
 import de.blinkt.openvpn.VpnProfile;
 import de.blinkt.openvpn.core.VpnStatus.ByteCountListener;
 import de.blinkt.openvpn.core.VpnStatus.ConnectionStatus;
