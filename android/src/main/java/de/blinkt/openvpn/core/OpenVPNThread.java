@@ -116,12 +116,18 @@ public class OpenVPNThread implements Runnable {
         String lbpath = genLibraryPath(argv, pb);
         pb.environment().put("LD_LIBRARY_PATH", lbpath);
         pb.redirectErrorStream(true);
+        Log.d("TAGGG", "here 1");
+        Log.d("TAGGG", lbpath);
         try {
             mProcess = pb.start();
+            Log.d("TAGGG", String.valueOf(mProcess));
             // Close the output, since we don't need it
             mProcess.getOutputStream().close();
+            Log.d("TAGGG", "here 1.2");
             InputStream in = mProcess.getInputStream();
+            Log.d("TAGGG", "here 1.3");
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            Log.d("TAGGG", "here 2");
             while (true) {
                 String logline = br.readLine();
                 if (logline == null) return;
@@ -130,6 +136,7 @@ public class OpenVPNThread implements Runnable {
                 // 1380308330.240114 18000002 Send to HTTP proxy: 'X-Online-Host: bla.blabla.com'
                 Pattern p = Pattern.compile("(\\d+).(\\d+) ([0-9a-f])+ (.*)");
                 Matcher m = p.matcher(logline);
+                Log.d("TAGGG", "here 3");
                 if (m.matches()) {
                     int flags = Integer.parseInt(m.group(3), 16);
                     String msg = m.group(4);
@@ -149,6 +156,7 @@ public class OpenVPNThread implements Runnable {
                 }
             }
         } catch (InterruptedException | IOException e) {
+            Log.d("ERRRRRRRORRRRRRRR", String.valueOf(e));
             VpnStatus.logException("Error reading from output of OpenVPN process", e);
             stopProcess();
         }

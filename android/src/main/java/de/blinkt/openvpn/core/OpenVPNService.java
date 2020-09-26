@@ -41,6 +41,7 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Vector;
 
+import com.facebook.react.bridge.ReactContext;
 import com.reactlibrary.BuildConfig;
 import de.blinkt.openvpn.DisconnectVPNActivity;
 import com.reactlibrary.R;
@@ -174,7 +175,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
         }
         @SuppressWarnings("deprecation") Notification notification = nbuilder.getNotification();
         mNotificationManager.notify(OPENVPN_STATUS, notification);
-        startForeground(OPENVPN_STATUS, notification);
+//        startForeground(OPENVPN_STATUS, notification);
         // Check if running on a TV
         if (runningOnAndroidTV() && !lowpriority) guiHandler.post(new Runnable() {
             @Override
@@ -447,12 +448,21 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
                 mManagement.stopVPN(true);
             }
         }
+        Log.d("HIHI", String.valueOf(mDeviceStateReceiver));
         if (mDeviceStateReceiver != null) {
-            this.unregisterReceiver(mDeviceStateReceiver);
+            try  {
+                this.unregisterReceiver(mDeviceStateReceiver);
+            }
+            catch (IllegalArgumentException e) {
+                // Check wether we are in debug mode
+                    e.printStackTrace();
+            }
+//            this.unregisterReceiver(mDeviceStateReceiver);
         }
         // Just in case unregister for state
         VpnStatus.removeStateListener(this);
         VpnStatus.flushLog();
+        Log.d("HIHIzzzzzzzzzzzzz", "donee");
     }
 
     private String getTunConfigString() {

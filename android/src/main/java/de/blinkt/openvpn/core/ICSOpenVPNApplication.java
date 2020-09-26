@@ -6,6 +6,7 @@ package de.blinkt.openvpn.core;
 
 import android.app.Application;
 
+import com.facebook.react.bridge.ReactContext;
 import com.reactlibrary.BuildConfig;
 
 /*
@@ -26,6 +27,7 @@ import org.acra.annotation.ReportsCrashes;
 )
 */
 public class ICSOpenVPNApplication extends Application {
+    ReactContext reactContext;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -33,6 +35,7 @@ public class ICSOpenVPNApplication extends Application {
         if (BuildConfig.DEBUG) {
             //ACRA.init(this);
         }
-        VpnStatus.initLogCache(getApplicationContext().getCacheDir());
+        VpnStatus.initLogCache(reactContext.getCacheDir());
+//        VpnStatus.initLogCache(getApplicationContext().getCacheDir());
     }
 }

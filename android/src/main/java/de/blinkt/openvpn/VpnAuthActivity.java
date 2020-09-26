@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.net.VpnService;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.react.bridge.ReactContext;
 
@@ -15,6 +15,7 @@ public class VpnAuthActivity extends AppCompatActivity {
     private String mConfig;
     private String mUsername;
     private String mPw;
+    ReactContext reactContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +43,8 @@ public class VpnAuthActivity extends AppCompatActivity {
 
     private void startVpn() {
         try {
+//            OpenVpnApi.startVpnInternal(reactContext, mConfig, mUsername, mPw);
             OpenVpnApi.startVpnInternal(this, mConfig, mUsername, mPw);
-//            OpenVpnApi.startVpnInternal(this, mConfig, mUsername, mPw);
         } catch (RemoteException ignore) {
         }
     }

@@ -6,6 +6,7 @@ import android.net.VpnService;
 import android.os.Build;
 import android.os.RemoteException;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
@@ -38,8 +39,10 @@ public class OpenVpnApi {
             if (!TextUtils.isEmpty(pw)) {
                 intent.putExtra(VpnAuthActivity.KEY_PASSWORD, pw);
             }
+            Log.d("TAGGG ", "1");
             context.startActivity(intent);
         } else {
+            Log.d("TAGGG ", "2");
             startVpnInternal(context, inlineConfig, userName, pw);
         }
     }

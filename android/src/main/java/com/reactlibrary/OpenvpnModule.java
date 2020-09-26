@@ -24,6 +24,7 @@ import de.blinkt.openvpn.DisconnectVPNActivity;
 import de.blinkt.openvpn.OpenVpnApi;
 import de.blinkt.openvpn.core.OpenVPNService;
 import de.blinkt.openvpn.core.ProfileManager;
+import de.blinkt.openvpn.core.VpnStatus;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -55,6 +56,8 @@ public class OpenvpnModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void connect(Promise promise) {
+        Log.d("CACHE DIR", String.valueOf(reactContext.getCacheDir()));
+        VpnStatus.initLogCache(reactContext.getCacheDir());
         vpnStarted = true;
         String config = "";
         try {
@@ -79,10 +82,15 @@ public class OpenvpnModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void disconnect(Promise promise) {
-        ProfileManager.setConntectedVpnProfileDisconnected(getReactApplicationContext());
-        if (mService != null && mService.getManagement() != null) {
-            mService.getManagement().stopVPN(false);
-        }
+        Log.d("TAGGG", "disconnecting");
+//        ProfileManager.setConntectedVpnProfileDisconnected(getReactApplicationContext());
+//        if (mService != null && mService.getManagement() != null) {
+//            Log.d("TAGGG", "disconnecting 2");
+//            mService.getManagement().stopVPN(false);
+//        }
+//        Toast.makeText(reactContext, "VPN STARTED", Toast.LENGTH_LONG).show();
+        Intent disconnectVPN = new Intent(reactContext, DisconnectVPNActivity.class);
+        reactContext.startActivity(disconnectVPN);
         promise.resolve(null);
     }
 }

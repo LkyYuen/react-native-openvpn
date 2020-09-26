@@ -8,6 +8,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,6 +17,8 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Vector;
 
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
 import com.reactlibrary.R;
 import de.blinkt.openvpn.VpnProfile;
 
@@ -78,6 +81,7 @@ public class VPNLaunchHelper {
         try {
             InputStream mvpn;
             try {
+                Log.d("TAGGG", "came here 1");
                 mvpn = context.getAssets().open(getMiniVPNExecutableName() + "." + abi);
             } catch (IOException errabi) {
                 VpnStatus.logInfo("Failed getting assets for archicture " + abi);
@@ -102,10 +106,18 @@ public class VPNLaunchHelper {
         }
     }
 
+
     public static void startOpenVpn(VpnProfile startprofile, Context context) {
+        Log.d("TAGGG", "3");
         Intent startVPN = startprofile.prepareStartService(context);
         if (startVPN != null) context.startService(startVPN);
     }
+
+//    public static void startOpenVpn(VpnProfile startprofile, Context context) {
+//        Log.d("TAGGG", "3");
+//        Intent startVPN = startprofile.prepareStartService(context);
+//        if (startVPN != null) context.startService(startVPN);
+//    }
 
     public static String getConfigFilePath(Context context) {
         return context.getCacheDir().getAbsolutePath() + "/" + OVPNCONFIGFILE;
