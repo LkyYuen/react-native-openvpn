@@ -58,7 +58,7 @@ public class OpenvpnModule extends ReactContextBaseJavaModule {
         vpnStarted = true;
         String config = "";
         try {
-            InputStream conf = myContext.getAssets().open("client.ovpn");// TODO replace your own authentication file in /assets/client.bin
+            InputStream conf = reactContext.getAssets().open("client.ovpn");// TODO replace your own authentication file in /assets/client.bin
             InputStreamReader isr = new InputStreamReader(conf);
             BufferedReader br = new BufferedReader(isr);
             String line;
@@ -69,7 +69,7 @@ public class OpenvpnModule extends ReactContextBaseJavaModule {
             Log.i("ERROR", "error");
         }
         try {
-            OpenVpnApi.startVpn(myContext, config, null, null);
+            OpenVpnApi.startVpn(reactContext, config, null, null);
             Log.i("ERROR", "STARTING VPN");
         } catch (RemoteException e) {
             Log.i("ERROR", "ERROR");

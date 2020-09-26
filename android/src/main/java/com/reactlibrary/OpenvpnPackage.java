@@ -16,9 +16,9 @@ public class OpenvpnPackage implements ReactPackage {
         return Arrays.<NativeModule>asList(new OpenvpnModule(reactContext));
     }
 
-    @Override
+    // Deprecated from RN 0.47
     public List<Class<? extends JavaScriptModule>> createJSModules() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

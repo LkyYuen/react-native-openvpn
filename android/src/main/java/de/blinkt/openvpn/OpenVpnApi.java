@@ -6,6 +6,9 @@ import android.net.VpnService;
 import android.os.Build;
 import android.os.RemoteException;
 import android.text.TextUtils;
+
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
 import com.reactlibrary.R;
 
 import java.io.IOException;
@@ -22,11 +25,12 @@ public class OpenVpnApi {
      * @param pw           某些ovpn的连接方式需要用户名和密码，可以为空
      * @throws RemoteException
      */
-    public static void startVpn(Context context, String inlineConfig, String userName, String pw) throws RemoteException {
+    public static void startVpn(ReactContext context, String inlineConfig, String userName, String pw) throws RemoteException {
         if (TextUtils.isEmpty(inlineConfig)) throw new RemoteException("config is empty");
         Intent intent = VpnService.prepare(context);
         if (intent != null) {
             intent = new Intent(context, VpnAuthActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(VpnAuthActivity.KEY_CONFIG, inlineConfig);
             if (!TextUtils.isEmpty(userName)) {
                 intent.putExtra(VpnAuthActivity.KEY_USERNAME, userName);
@@ -42,6 +46,7 @@ public class OpenVpnApi {
 
     static void startVpnInternal(Context context, String inlineConfig, String userName, String pw) throws RemoteException {
         ConfigParser cp = new ConfigParser();
+
         try {
             cp.parseConfig(new StringReader(inlineConfig));
             VpnProfile vp = cp.convertProfile();// 解析.ovpn

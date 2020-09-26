@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 
+import com.facebook.react.bridge.ReactContext;
+
 public class VpnAuthActivity extends AppCompatActivity {
     public static final String KEY_CONFIG = "config";
     public static final String KEY_USERNAME = "username";
@@ -41,6 +43,7 @@ public class VpnAuthActivity extends AppCompatActivity {
     private void startVpn() {
         try {
             OpenVpnApi.startVpnInternal(this, mConfig, mUsername, mPw);
+//            OpenVpnApi.startVpnInternal(this, mConfig, mUsername, mPw);
         } catch (RemoteException ignore) {
         }
     }
