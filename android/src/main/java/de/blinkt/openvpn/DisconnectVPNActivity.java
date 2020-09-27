@@ -7,8 +7,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Bundle;
 import android.os.IBinder;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.view.View;
 import android.widget.Toast;
 
 import com.reactlibrary.R;
@@ -32,13 +35,13 @@ public class DisconnectVPNActivity extends AppCompatActivity implements DialogIn
         }
     };
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        View view = new View(this);
-//        view.setBackgroundColor(0xff0000);
-//        setContentView(view);
-//    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        View view = new View(this);
+        view.setBackgroundColor(0xff0000);
+        setContentView(view);
+    }
 
     @Override
     protected void onResume() {//创建Dialog之前调用

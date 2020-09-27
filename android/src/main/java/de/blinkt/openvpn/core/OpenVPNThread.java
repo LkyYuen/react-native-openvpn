@@ -5,6 +5,8 @@
 package de.blinkt.openvpn.core;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.VpnService;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -13,6 +15,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -21,6 +25,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
 import com.reactlibrary.R;
 import de.blinkt.openvpn.core.VpnStatus.ConnectionStatus;
 
@@ -151,6 +157,18 @@ public class OpenVPNThread implements Runnable {
                 } else {
                     VpnStatus.logInfo("P:" + logline);
                 }
+                // check VPN is connected
+                if(checkVPNConnected()) {
+                    Log.d("TAGGG", "Connected");
+                }
+                else {
+                    Log.d("TAGGG", "Connecting...");
+                }
+//                Intent intent = VpnService.prepare(reactContext);
+//                if (intent == null) {
+//                    Log.d("TAGGG", "this means there is already a prepared VPN connection");
+//                    // this means there is already a prepared VPN connection
+//                }
                 if (Thread.interrupted()) {
                     throw new InterruptedException("OpenVpn process was killed form java code");
                 }
@@ -160,6 +178,29 @@ public class OpenVPNThread implements Runnable {
             VpnStatus.logException("Error reading from output of OpenVPN process", e);
             stopProcess();
         }
+    }
+
+    public boolean checkVPNConnected() {
+        String iface = "";
+        try {
+            for (NetworkInterface networkInterface : Collections.list(NetworkInterface.getNetworkInterfaces())) {
+                if (networkInterface.isUp())
+                    iface = networkInterface.getName();
+                Log.d("DEBUG", "IFACE NAME: " + iface);
+                if ( iface.contains("tun") || iface.contains("ppp") || iface.contains("pptp")) {
+                    Log.d("CHECK VPN SUCCESS", "CONNECTED");
+                     return true;
+//                    promise.resolve(true);
+                }
+                else {
+                    Log.d("CHECK VPN SUCCESS", "NOT CONNECTED");
+                }
+            }
+        } catch (SocketException e1) {
+            e1.printStackTrace();
+            Log.d("CHECK VPN ERROR", String.valueOf(e1));
+        }
+        return false;
     }
 
     private String genLibraryPath(String[] argv, ProcessBuilder pb) {
