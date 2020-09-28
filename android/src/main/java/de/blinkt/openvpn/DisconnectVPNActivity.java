@@ -19,7 +19,7 @@ import com.reactlibrary.R;
 import de.blinkt.openvpn.core.OpenVPNService;
 import de.blinkt.openvpn.core.ProfileManager;
 
-public class DisconnectVPNActivity extends AppCompatActivity implements DialogInterface.OnClickListener, DialogInterface.OnCancelListener {
+public class DisconnectVPNActivity extends Activity {
     protected OpenVPNService mService;
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -35,13 +35,13 @@ public class DisconnectVPNActivity extends AppCompatActivity implements DialogIn
         }
     };
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        View view = new View(this);
-        view.setBackgroundColor(0xff0000);
-        setContentView(view);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        View view = new View(this);
+//        view.setBackgroundColor(0xff0000);
+//        setContentView(view);
+//    }
 
     @Override
     protected void onResume() {//创建Dialog之前调用
@@ -49,7 +49,25 @@ public class DisconnectVPNActivity extends AppCompatActivity implements DialogIn
         Intent intent = new Intent(this, OpenVPNService.class);
         intent.setAction(OpenVPNService.START_SERVICE);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        showDisconnectDialog();
+//        showDisconnectDialog();
+        ProfileManager.setConntectedVpnProfileDisconnected(this);
+        new CountDownTimer(1000, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                // do something after 1s
+            }
+
+            @Override
+            public void onFinish() {
+                Log.d("DISCONNECT 1", String.valueOf(mService));
+                if (mService != null && mService.getManagement() != null) {
+                    Log.d("DISCONNECT 2", String.valueOf(mService));
+                    mService.getManagement().stopVPN(false);
+                }
+                finish();
+            }
+        }.start();
     }
 
     @Override
@@ -58,29 +76,29 @@ public class DisconnectVPNActivity extends AppCompatActivity implements DialogIn
         unbindService(mConnection);
     }
 
-    private void showDisconnectDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.title_cancel);
-        builder.setMessage(R.string.cancel_connection_query);
-        builder.setNegativeButton(android.R.string.no, this);
-        builder.setPositiveButton(android.R.string.yes, this);
-        builder.setOnCancelListener(this);
-        builder.show();
-    }
+//    private void showDisconnectDialog() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle(R.string.title_cancel);
+//        builder.setMessage(R.string.cancel_connection_query);
+//        builder.setNegativeButton(android.R.string.no, this);
+//        builder.setPositiveButton(android.R.string.yes, this);
+//        builder.setOnCancelListener(this);
+//        builder.show();
+//    }
 
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        if (which == DialogInterface.BUTTON_POSITIVE) {
-            ProfileManager.setConntectedVpnProfileDisconnected(this);
-            if (mService != null && mService.getManagement() != null) {
-                mService.getManagement().stopVPN(false);
-            }
-        }
-        finish();
-    }
+//    @Override
+//    public void onClick(DialogInterface dialog, int which) {
+//        if (which == DialogInterface.BUTTON_POSITIVE) {
+//            ProfileManager.setConntectedVpnProfileDisconnected(this);
+//            if (mService != null && mService.getManagement() != null) {
+//                mService.getManagement().stopVPN(false);
+//            }
+//        }
+//        finish();
+//    }
 
-    @Override
-    public void onCancel(DialogInterface dialog) {
-        finish();
-    }
+//    @Override
+//    public void onCancel(DialogInterface dialog) {
+//        finish();
+//    }
 }

@@ -75,6 +75,7 @@ public class OpenvpnModule extends ReactContextBaseJavaModule {
         Log.d("CACHE DIR", String.valueOf(reactContext.getCacheDir()));
         VpnStatus.initLogCache(reactContext.getCacheDir());
         vpnStarted = true;
+        boolean notConnected = true;
         String config = "";
         try {
             InputStream conf = reactContext.getAssets().open("client.ovpn");// TODO replace your own authentication file in /assets/client.bin
@@ -90,6 +91,34 @@ public class OpenvpnModule extends ReactContextBaseJavaModule {
         try {
             OpenVpnApi.startVpn(reactContext, config, null, null);
             Log.i("ERROR", "STARTING VPN");
+
+            while(true) {
+                String iface = "";
+                try {
+                    for (NetworkInterface networkInterface : Collections.list(NetworkInterface.getNetworkInterfaces())) {
+                        if (networkInterface.isUp())
+                            iface = networkInterface.getName();
+                        Log.d("DEBUG", "IFACE NAME: " + iface);
+                        if ( iface.contains("tun") || iface.contains("ppp") || iface.contains("pptp")) {
+                            Log.d("CHECK VPN SUCCESS", "CONNECTED");
+                            // return true;
+                            notConnected = false;
+                            break;
+                        }
+                        else {
+                            Log.d("CHECK VPN SUCCESS", "NOT CONNECTED");
+                        }
+                    }
+                    if (!notConnected) {
+                        break;
+                    }
+                } catch (SocketException e1) {
+                    e1.printStackTrace();
+                    Log.d("CHECK VPN ERROR", String.valueOf(e1));
+                    promise.resolve(false);
+                }
+            }
+            promise.resolve(true);
         } catch (RemoteException e) {
             Log.i("ERROR", "ERROR");
         }

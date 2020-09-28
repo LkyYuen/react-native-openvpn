@@ -55,7 +55,7 @@
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:taskAffinity=".DisconnectVPN"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"/><!--断开连接的确认对话框，实际是一个Activity-->
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/><!--断开连接的确认对话框，实际是一个Activity-->
 
         <service
             android:name="de.blinkt.openvpn.core.OpenVPNService"
